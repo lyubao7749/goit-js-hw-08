@@ -5,21 +5,25 @@ const STORAGE_KEY = 'videoplayer-current-time';
 const iframe = document.querySelector('iframe');
 const player =  new Player(iframe);
   
- player.on('play', function() {
-    const lastPosition =  localStorage.getItem(STORAGE_KEY);
-    player.setCurrentTime(lastPosition)
-    .then(function(seconds) { 
-       
-    }).catch(function(error) {
-     switch (error.name) {
-        case 'RangeError':
-           break;    
-        default:
-           break;
-       }
-    });
+localStorage.getItem(STORAGE_KEY)
+player
+  .setCurrentTime(localStorage.getItem(STORAGE_KEY))
+  .then(function (seconds) {
+    // seconds = the actual time that the player seeked to
+  })
+  .catch(function (error) {
+    switch (error.name) {
+      case 'RangeError':
+        // the time was less than 0 or greater than the video’s duration
+        break;
+
+      default:
+        // some other error occurred
+        break;
+    }
+  });
+
  player.on('timeupdate', throttle(ontimeUpdate, 1000));
-});
 
 function ontimeUpdate({ seconds }) {
   try {
@@ -29,4 +33,3 @@ function ontimeUpdate({ seconds }) {
        console.log(error.name);
     }
   }
-
