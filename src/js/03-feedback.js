@@ -8,7 +8,7 @@ const refs = {
     message: document.querySelector('.feedback-form textarea'),
 };
 
-let formData = {};
+let formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; 
 refs.form.addEventListener('submit', onFormSubmit);
 refs.form.addEventListener('input' , throttle(onFormInput, 500));
 
@@ -33,7 +33,7 @@ function onFormInput (event) {
     formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; 
     formData[event.target.name] = event.target.value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-  //  console.log(localStorage.getItem(STORAGE_KEY));
+    console.log(localStorage.getItem(STORAGE_KEY));
 }
 
 function onFormSubmit(event) {
